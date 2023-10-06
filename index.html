@@ -8,21 +8,49 @@
 </head>
 <body>
     <h1>Next Times Countdown</h1>
-    
+
+    <!-- Button to reveal times -->
+    <button id="showTimesButton">Show Times</button>
+
     <!-- Create an array of times (24-hour format) -->
-    <div id="times">
+    <div id="times" style="display: none;">
         <p>12:00</p>
         <p>15:30</p>
         <p>18:45</p>
         <!-- Add more times as needed -->
     </div>
-    
+
+    <!-- Button to start the looping video -->
+    <button id="startLoopingVideoButton">Start Looping Video</button>
+
     <!-- Display countdown for each time -->
     <div id="countdowns">
         <!-- Countdowns will be displayed here -->
     </div>
 
+    <!-- Dummy video element for looping -->
+    <video id="dummyVideo" loop style="display: none;">
+        <source src="dummy-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
     <script>
+        const showTimesButton = document.getElementById('showTimesButton');
+        const timesDiv = document.getElementById('times');
+        const startLoopingVideoButton = document.getElementById('startLoopingVideoButton');
+        const dummyVideo = document.getElementById('dummyVideo');
+
+        // Function to reveal the times
+        showTimesButton.addEventListener('click', () => {
+            timesDiv.style.display = 'block';
+        });
+
+        // Function to start the looping video
+        startLoopingVideoButton.addEventListener('click', () => {
+            dummyVideo.style.display = 'block';
+            calculateCountdowns(); // Start the countdowns
+        });
+
         // Function to calculate and display countdowns
         function calculateCountdowns() {
             const times = document.querySelectorAll('#times p');
@@ -30,7 +58,7 @@
             countdownsDiv.innerHTML = '';
 
             const now = new Date();
-            
+
             times.forEach(timeString => {
                 const [hour, minute] = timeString.textContent.split(':');
                 const targetTime = new Date();
@@ -46,16 +74,10 @@
 
                 const countdownElement = document.createElement('div');
                 countdownElement.className = 'container';
-                countdownElement.innerHTML = `<p>Time: ${timeString.textContent}</p><p>Countdown: ${minutes} minutes</p>`;
+                countdownElement.innerHTML = `<p>Countdown: ${minutes} minutes</p>`;
                 countdownsDiv.appendChild(countdownElement);
             });
         }
-
-        // Call the function initially
-        calculateCountdowns();
-
-        // Update countdowns every second
-        setInterval(calculateCountdowns, 1000);
     </script>
 </body>
 </html>
