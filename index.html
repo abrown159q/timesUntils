@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Next Times Countdown</title>
-    <style>
-        /* Add your CSS styles here */
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <h1>Next Times Countdown</h1>
@@ -46,8 +44,9 @@
                 // Convert milliseconds to minutes
                 const minutes = Math.floor(timeDiff / (1000 * 60));
 
-                const countdownElement = document.createElement('p');
-                countdownElement.textContent = `Time: ${timeString.textContent}, Countdown: ${minutes} minutes`;
+                const countdownElement = document.createElement('div');
+                countdownElement.className = 'container';
+                countdownElement.innerHTML = `<p>Time: ${timeString.textContent}</p><p>Countdown: ${minutes} minutes</p>`;
                 countdownsDiv.appendChild(countdownElement);
             });
         }
