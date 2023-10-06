@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next Times Countdown</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>Next Times Countdown</h1>
+    
+    <!-- Create an array of times (24-hour format) -->
+    <div id="times">
+        <p>12:00</p>
+        <p>15:30</p>
+        <p>18:45</p>
+        <!-- Add more times as needed -->
+    </div>
+    
+    <!-- Display countdown for each time -->
+    <div id="countdowns">
+        <!-- Countdowns will be displayed here -->
+    </div>
+
+    <script>
+        // Function to calculate and display countdowns
+        function calculateCountdowns() {
+            const times = document.querySelectorAll('#times p');
+            const countdownsDiv = document.getElementById('countdowns');
+            countdownsDiv.innerHTML = '';
+
+            const now = new Date();
+            
+            times.forEach(timeString => {
+                const [hour, minute] = timeString.textContent.split(':');
+                const targetTime = new Date();
+                targetTime.setHours(parseInt(hour));
+                targetTime.setMinutes(parseInt(minute));
+                targetTime.setSeconds(0);
+
+                // Calculate the time difference in milliseconds
+                const timeDiff = targetTime - now;
+
+                // Convert milliseconds to minutes
+                const minutes = Math.floor(timeDiff / (1000 * 60));
+
+                const countdownElement = document.createElement('p');
+                countdownElement.textContent = `Time: ${timeString.textContent}, Countdown: ${minutes} minutes`;
+                countdownsDiv.appendChild(countdownElement);
+            });
+        }
+
+        // Call the function initially
+        calculateCountdowns();
+
+        // Update countdowns every second
+        setInterval(calculateCountdowns, 1000);
+    </script>
+</body>
+</html>
