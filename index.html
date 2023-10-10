@@ -34,50 +34,57 @@
         Your browser does not support the video tag.
     </video>
 
-    <script>
-        const showTimesButton = document.getElementById('showTimesButton');
-        const timesDiv = document.getElementById('times');
-        const startLoopingVideoButton = document.getElementById('startLoopingVideoButton');
-        const dummyVideo = document.getElementById('dummyVideo');
+<!-- ... (HTML and CSS code remains the same) -->
 
-        // Function to reveal the times
-        showTimesButton.addEventListener('click', () => {
-            timesDiv.style.display = 'block';
+<script>
+    const showTimesButton = document.getElementById('showTimesButton');
+    const timesDiv = document.getElementById('times');
+    const startLoopingVideoButton = document.getElementById('startLoopingVideoButton');
+    const dummyVideo = document.getElementById('dummyVideo');
+    const countdownsDiv = document.getElementById('countdowns');
+
+    let countdownInterval;
+
+    // Function to reveal the times
+    showTimesButton.addEventListener('click', () => {
+        timesDiv.style.display = 'block';
+    });
+
+    // Function to start the looping video and calculate/display countdowns
+    startLoopingVideoButton.addEventListener('click', () => {
+        dummyVideo.style.display = 'block';
+        calculateCountdowns(); // Start the countdowns
+        countdownInterval = setInterval(calculateCountdowns, 1000); // Update every second
+    });
+
+    // Function to calculate and display countdowns
+    function calculateCountdowns() {
+        const times = document.querySelectorAll('#times p');
+        countdownsDiv.innerHTML = '';
+
+        const now = new Date();
+
+        times.forEach(timeString => {
+            const [hour, minute] = timeString.textContent.split(':');
+            const targetTime = new Date();
+            targetTime.setHours(parseInt(hour));
+            targetTime.setMinutes(parseInt(minute));
+            targetTime.setSeconds(0);
+
+            // Calculate the time difference in milliseconds
+            const timeDiff = targetTime - now;
+
+            // Convert milliseconds to seconds and minutes
+            const seconds = Math.floor(timeDiff / 1000);
+            const minutes = Math.floor(seconds / 60);
+
+            const countdownElement = document.createElement('div');
+            countdownElement.className = 'container';
+            countdownElement.innerHTML = `<p>Time: ${timeString.textContent}</p>
+                                          <p>Countdown: ${minutes} minutes (${seconds} seconds)</p>`;
+            countdownsDiv.appendChild(countdownElement);
         });
-
-        // Function to start the looping video
-        startLoopingVideoButton.addEventListener('click', () => {
-            dummyVideo.style.display = 'block';
-            calculateCountdowns(); // Start the countdowns
-        });
-
-        // Function to calculate and display countdowns
-        function calculateCountdowns() {
-            const times = document.querySelectorAll('#times p');
-            const countdownsDiv = document.getElementById('countdowns');
-            countdownsDiv.innerHTML = '';
-
-            const now = new Date();
-
-            times.forEach(timeString => {
-                const [hour, minute] = timeString.textContent.split(':');
-                const targetTime = new Date();
-                targetTime.setHours(parseInt(hour));
-                targetTime.setMinutes(parseInt(minute));
-                targetTime.setSeconds(0);
-
-                // Calculate the time difference in milliseconds
-                const timeDiff = targetTime - now;
-
-                // Convert milliseconds to minutes
-                const minutes = Math.floor(timeDiff / (1000 * 60));
-
-                const countdownElement = document.createElement('div');
-                countdownElement.className = 'container';
-                countdownElement.innerHTML = `<p>Countdown: ${minutes} minutes</p>`;
-                countdownsDiv.appendChild(countdownElement);
-            });
-        }
-    </script>
+    }
+</script>
 </body>
 </html>
